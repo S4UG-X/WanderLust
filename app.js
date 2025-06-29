@@ -23,6 +23,21 @@ mongoose.connect("mongodb://localhost:27017/wanderlust")
         console.log(err);
     });
 
+    //checking
+    // app.get("/checking", async (req, res) => {
+    //     const newListing  = new Listing({
+    //         title: "Old Boat",
+    //         description: "A very old boat",
+    //         image: "https://via.placeholder.com/150",
+    //         price: 100000,
+    //         location: "New York",
+    //         country: "USA",
+    //     });
+    //     await newListing.save();
+    //     res.send(newListing);
+    // });
+
+    
 
 
 
