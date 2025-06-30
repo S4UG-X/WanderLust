@@ -3,7 +3,12 @@
   <div class="card shadow-sm">
     <div class="card-body">
       <h2 class="mb-4 text-center">Create a New Listing</h2>
-      <form action="/listings" method="post">
+      <form
+        action="/listings"
+        method="post"
+        novalidate
+        class="needs-validation"
+      >
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -14,6 +19,8 @@
             placeholder="Enter title"
             required
           />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Looks Bad!</div>
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
@@ -25,6 +32,8 @@
             placeholder="Enter description"
             required
           ></textarea>
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Looks Bad!</div>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Image URL</label>
@@ -34,7 +43,6 @@
             id="image"
             name="listing[image][url]"
             placeholder="Paste image URL"
-            
           />
         </div>
         <div class="mb-3">
@@ -48,6 +56,8 @@
             min="0"
             required
           />
+          <div class="valid-feedback">Looks good!</div>
+          <div class="invalid-feedback">Looks Bad!</div>
         </div>
         <div class="mb-3 d-flex gap-3">
           <div class="flex-fill">
@@ -60,6 +70,8 @@
               placeholder="Enter country"
               required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Looks Bad!</div>
           </div>
           <div class="flex-fill">
             <label for="location" class="form-label">Location</label>
@@ -71,6 +83,8 @@
               placeholder="Enter location"
               required
             />
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Looks Bad!</div>
           </div>
         </div>
         <div class="d-grid">

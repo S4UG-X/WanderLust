@@ -27,4 +27,10 @@ ejs-mate npm package for boilerplate.ejs
 created /public/css/style.css
 using bootstrap for Navbar.
 linking cdn icons for icons
-styling index.ejs, new.ejs
+styling index.ejs, new.ejs and all other
+
+# Branch validation
+validate frontend by using Bootstrap
+validate backend 
+customError class
+validate schema by Joi
