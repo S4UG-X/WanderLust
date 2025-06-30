@@ -1,0 +1,31 @@
+ 
+
+.container{
+    padding: 10px;
+}
+.icon-compass{
+
+    color: red;
+ font-size: 2rem !important;
+ padding-right:0.51rem ;
+}
+.compass-title{
+display: flex;
+
+}
+.listing-link {
+    text-decoration: none; /* Removes underline from anchor tag */
+    color: black;
+}
+.one-listing {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.one-listing:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    z-index: 2;
+}
+
+  .add-listing-link:hover {
+                            opacity: 1 !important;
+                        }

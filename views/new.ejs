@@ -1,39 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Form   </title>
-</head>
-<body>
-
-    <form action="/listings" method="post">
-        <div class="title">
-            <label for="title">Title</label>
-            <input type="text" name="listing[title]">
+<% layout("/layouts/boilerplate") %>
+<div class="container mt-5" style="max-width: 600px">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h2 class="mb-4 text-center">Create a New Listing</h2>
+      <form action="/listings" method="post">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            name="listing[title]"
+            placeholder="Enter title"
+            required
+          />
         </div>
-        <div class="description">
-            <label for="title">Description</label>
-        <textarea name="listing[description]"></textarea>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            class="form-control"
+            id="description"
+            name="listing[description]"
+            rows="3"
+            placeholder="Enter description"
+            required
+          ></textarea>
         </div>
-        <div class="image">
-            <label for="image">image</label>
-            <input type="text" name="listing[image][url]">
+        <div class="mb-3">
+          <label for="image" class="form-label">Image URL</label>
+          <input
+            type="text"
+            class="form-control"
+            id="image"
+            name="listing[image][url]"
+            placeholder="Paste image URL"
+            
+          />
         </div>
-        <div class="price">
-            <label for="price">Price</label>
-            <input type="text" name="listing[price]">
+        <div class="mb-3">
+          <label for="price" class="form-label">Price (NPR)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="price"
+            name="listing[price]"
+            placeholder="Enter price"
+            min="0"
+            required
+          />
         </div>
-        <div class="country">
-            <label for="country">Country</label>
-            <input type="text" name="listing[country]">
+        <div class="mb-3 d-flex gap-3">
+          <div class="flex-fill">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              class="form-control"
+              id="country"
+              name="listing[country]"
+              placeholder="Enter country"
+              required
+            />
+          </div>
+          <div class="flex-fill">
+            <label for="location" class="form-label">Location</label>
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              name="listing[location]"
+              placeholder="Enter location"
+              required
+            />
+          </div>
         </div>
-        <div class="location">
-            <label for="location">location</label>
-            <input type="text" name="listing[location]">
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-block">
+            Submit
+          </button>
         </div>
-        <button>Submit</button>
-    </form>
-    
-</body>
-</html>
+      </form>
+    </div>
+  </div>
+</div>
