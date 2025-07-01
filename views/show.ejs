@@ -50,4 +50,60 @@
       </div>
     </div>
   </div>
+  <hr />
+  <h4>Add Review</h4>
+  <form
+    action="/listings/<%=listing._id%>/review"
+    novalidate
+    class="needs-validation"
+    method="post"
+  >
+    <div>
+      <label for="customRange1" class="form-label">Rating:</label>
+      <input
+        type="range"
+        class="form-range"
+        id="customRange1"
+        min="1"
+        max="5"
+        name="review[rating]"
+      />
+    </div>
+
+    <div class="form-floating">
+      <textarea
+        class="form-control"
+        placeholder="Leave a comment here"
+        id="floatingTextarea2"
+        style="height: 100px"
+        name="review[comment]"
+        required
+      ></textarea>
+      <label for="floatingTextarea2">Comments</label>
+    </div>
+
+    <button class="btn btn-primary btn-sm mt-2">Submit</button>
+  </form>
+  <hr />
+  <h3>All Reviews</h3>
+  <div class="row">
+    <% for( let review of listing.reviews) {%>
+    <div class="card col-md-6 mb-3" style="width: 18rem; margin-left: 10px">
+      <div class="card-body">
+        <h5 class="card-title">John Doe</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">
+          <%=review.rating %>stars
+        </h6>
+        <p class="card-text"><%=review.comment %></p>
+        <form
+          action="/listings/<%=listing._id  %>/review/<%=review._id  %>?_method=DELETE"
+          method="post"
+          style="display: inline;"
+        >
+          <button class="btn btn-danger btn-sm">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% } %>
+  </div>
 </div>

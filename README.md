@@ -16,6 +16,7 @@ after completed doing work in sub branch, then you merge remotely from the websi
 # Shortcut
 Ctrl + j ==> to toggle between file and terminal
 ctrl + shift + <> ==> to toggle between terminal
+ctrl + h ==> to find and replace all at once
 
 
 # Branch Route
@@ -34,3 +35,14 @@ validate frontend by using Bootstrap
 validate backend 
 customError class
 validate schema by Joi
+
+# Branch reviewModel
+create reviewModel and integrate with listing Model
+add review form in show.ejs, just add it. connect it with listing model.
+// First build the logic and then only go for styling.
+do form validation frontend and backend.
+go for styling
+add delete Button
+handeling deletion betweeen related collections
+
+
