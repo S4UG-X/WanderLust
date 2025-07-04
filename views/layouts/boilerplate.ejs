@@ -16,6 +16,21 @@
 <body>
     <%- include("../includes/navbar") %>
     <h2>WanderLust</h2>
+    <% if(success && success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-5" role="alert" id="flashAlert" style="z-index: 1050;">
+      <%= success %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <script>
+      setTimeout(() => {
+        const alert = document.getElementById('flashAlert');
+        if (alert) {
+          const bsAlert = new bootstrap.Alert(alert);
+          bsAlert.close();
+        }
+      }, 800);
+    </script>
+<% } %>
     
 
 <div class="container"> <%- body  %></div>

@@ -8,7 +8,17 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const customError = require("./utils/customError.js");
-const {listingSchema, reviewSchema} = require("./schema.js");
+const { reviewSchema} = require("./schema.js");
+const listingRoute = require("./routes/listing.js") 
+const reviewRoute = require("./routes/review.js") 
+const session = require("express-session")
+const flash = require("connect-flash")
+
+
+
+
+
+
 
 
 app.listen(8080, () => {
@@ -33,124 +43,25 @@ mongoose
     console.log(err);
   });
 
-
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    throw new customError(500, error);
-  } else {
-    next();
-  }
-};
-const validateReview = (req, res,next)=>{
-  let {error}=reviewSchema.validate(req.body)
-  if(error){
-    throw new customError(500, error)
-
-  }else{
-    next()
-  }
-}
-
-//delete route
-app.delete(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findById(id)
-    listing.reviews._id
-    await Listing.findByIdAndDelete(id);
-    res.redirect("/listings");
+app.use(
+  session({
+    secret: "youHaveToMakeThisHardToGuess",
+    resave: false,
+    saveUninitialized: true,
   })
 );
+app.use(flash());
 
-//Edit and Update
-app.get(
-  "/listings/:id/edit",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findById(id);
-    res.render("edit.ejs", { listing, title: `Edit ${listing.title}` });
-  })
-);
-app.patch(
-  "/listings/:id",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let newListing = req.body.listing;
-    await Listing.findByIdAndUpdate(id, newListing);
-    // console.log(newListing)
-    res.redirect(`/listings/${id}`);
-  })
-);
-
-//Add new route
-app.get("/listings/new", (req, res) => {
-  res.render("new.ejs", { title: "New Listing" });
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next()
 });
-app.post(
-  "/listings",
-  validateListing,
-  wrapAsync(async (req, res) => {
-    let data = req.body.listing;
-    await Listing.create(data);
-    res.redirect("/listings");
-    // console.log(data)
-  })
-);
 
-//show route
-app.get(
-  "/listings/:id",
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let listing = await Listing.findById(id).populate("reviews");
-    res.render("show.ejs", { listing, title: listing.title });
-    // console.log(listing)
-  })
-);
 
-//index route
-app.get(
-  "/listings",
-  wrapAsync(async (req, res) => {
-    let listings = await Listing.find({});
-    res.render("index.ejs", { listings, title: "All Listings" });
-    // console.log( typeof listings)
-  })
-);
 
-//Review route
 
-app.post(
-  "/listings/:id/review",validateReview,
-  wrapAsync(async (req, res) => {
-    let { id } = req.params;
-    let review = req.body.review;
-
-    let newReview = await Review.create(review);
-    let listing = await Listing.findById(id);
-    listing.reviews.push(newReview._id);
-    await newReview.save()
-    await listing.save();
-   
-    // res.render("show.ejs", { listing, title: listing.title });
-    res.redirect(`/listings/${id}`);
-  })
-);
-//delete review
-app.delete("/listings/:id/review/:reviewId",async (req, res)=>{
-  let {id, reviewId}= req.params
-
-  await Listing.findByIdAndUpdate(id, {
-    $pull: { reviews: reviewId },
-  });
- ;
-await Review.findByIdAndDelete(reviewId)
-   
-res.redirect(`/listings/${id}`)
-})
+app.use("/listings", listingRoute);
+app.use("/listings/:id/review", reviewRoute);
 
 
 

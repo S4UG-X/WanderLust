@@ -5,6 +5,9 @@ First full Website
 
 initial-setup
 routes
+styling
+validation
+reviewModel
 
 # Methods of How i am going to do this
 
@@ -45,4 +48,11 @@ go for styling
 add delete Button
 handeling deletion betweeen related collections
 
+# Branch restruct
+restructing Listing routes
+restructing review routes
+
+# Branch state 
+It includes express-session and connect-flash
+adding npm for session and for flash.
 
