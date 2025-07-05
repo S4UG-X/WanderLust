@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -5,7 +9,6 @@ const mongoose = require("mongoose");
 
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-
 const listingRoute = require("./routes/listing.js");
 const reviewRoute = require("./routes/review.js");
 const userRoute = require("./routes/user.js");
@@ -13,7 +16,9 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const User = require("./models/User.js")
+const User = require("./models/User.js");
+const MongoStore = require("connect-mongo");
+
 
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
@@ -27,15 +32,27 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "public")));
 
-mongoose
-  .connect("mongodb://localhost:27017/wanderlust")
-  .then(() => {
-    console.log("Mongoose connected");
-  })
-  .catch((err) => {
-    console.log("Mongoose connection error");
-    console.log(err);
-  });
+const dbUrl = process.env.ATLASDB_URL;
+
+// ====== Mongoose connection ======
+async function main() {
+  await mongoose.connect(dbUrl);
+}
+main().then(() => {
+  console.log("Mongoose connected");
+});
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "thisIsASecret",
+  },
+});
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+ 
+
 
 app.use(
   session({
@@ -45,8 +62,6 @@ app.use(
   })
 );
 app.use(flash());
-
-
 
 app.use(passport.initialize());
 app.use(passport.session());
