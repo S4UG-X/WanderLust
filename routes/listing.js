@@ -2,37 +2,30 @@ const express = require("express");
 const router = express.Router();
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
-const customError = require("../utils/customError.js");
-const { listingSchema } = require("../schema.js");
+
+
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 
 
 
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  if (error) {
-    throw new customError(500, error);
-  } else {
-    next();
-  }
-};
 
 //delete route
 router.delete(
-  "/:id",
+  "/:id", isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     listing.reviews._id;
     await Listing.findByIdAndDelete(id);
-     req.flash("success", "Data is Deleted");
+    req.flash("success", "Data is Deleted");
     res.redirect("/listings");
   })
 );
 
-
 //Edit and Update
 router.get(
   "/:id/edit",
+  isOwner,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
@@ -41,19 +34,20 @@ router.get(
 );
 router.patch(
   "/:id",
+  isOwner,
   validateListing,
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     let newListing = req.body.listing;
     await Listing.findByIdAndUpdate(id, newListing);
-     req.flash("success", "Data is Updated");
+    req.flash("success", "Data is Updated");
     // console.log(newListing)
     res.redirect(`/listings/${id}`);
   })
 );
 
 //Add new route
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("new.ejs", { title: "New Listing" });
 });
 router.post(
@@ -61,9 +55,10 @@ router.post(
   validateListing,
   wrapAsync(async (req, res) => {
     let data = req.body.listing;
+    data.owner = req.user._id;
     await Listing.create(data);
 
-    req.flash("success", "Data is created")
+    req.flash("success", "Data is created");
     res.redirect("/listings");
     // console.log(data)
   })
@@ -74,7 +69,15 @@ router.get(
   "/:id",
   wrapAsync(async (req, res) => {
     let { id } = req.params;
-    let listing = await Listing.findById(id).populate("reviews");
+    let listing = await Listing.findById(id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+        },
+      })
+      .populate("owner");
+     
     res.render("show.ejs", { listing, title: listing.title });
     // console.log(listing)
   })
@@ -89,6 +92,5 @@ router.get(
     // console.log( typeof listings)
   })
 );
-
 
 module.exports = router;
