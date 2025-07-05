@@ -1,0 +1,47 @@
+<% layout("/layouts/boilerplate") %>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h3>Login</h3>
+        </div>
+        <div class="card-body">
+          <% if (typeof error !== "undefined" && error.length > 0) { %>
+            <div class="alert alert-danger">
+              <%= error %>
+            </div>
+          <% } %>
+          <form action="/login" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="username" 
+                name="username" 
+                required
+                placeholder="Enter your username"
+              >
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                class="form-control" 
+                id="password" 
+                name="password" 
+                required
+                placeholder="Enter your password"
+              >
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+          </form>
+        </div>
+        <div class="card-footer text-center">
+          <small>Don't have an account? <a href="/signup">Sign Up</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

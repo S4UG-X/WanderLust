@@ -56,3 +56,12 @@ restructing review routes
 It includes express-session and connect-flash
 adding npm for session and for flash.
 
+# Branch auth
+Authorization and Authentication
+User model
+Add login, logout, sign up route in user.js
+style the navbar.ejs
+Add the owner to each listing and showing it in the show.ejs
+Making sure that one user cannot delete the other user's listing both from frontend and backend
+Do the same for Review
+

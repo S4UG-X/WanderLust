@@ -2,24 +2,18 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-const Listing = require("./models/listing");
-const Review = require("./models/review");
+
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const wrapAsync = require("./utils/wrapAsync.js");
-const customError = require("./utils/customError.js");
-const { reviewSchema} = require("./schema.js");
-const listingRoute = require("./routes/listing.js") 
-const reviewRoute = require("./routes/review.js") 
-const session = require("express-session")
-const flash = require("connect-flash")
 
-
-
-
-
-
-
+const listingRoute = require("./routes/listing.js");
+const reviewRoute = require("./routes/review.js");
+const userRoute = require("./routes/user.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/User.js")
 
 app.listen(8080, () => {
   console.log("Server is running on port 8080");
@@ -52,21 +46,23 @@ app.use(
 );
 app.use(flash());
 
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
-  next()
+  next();
 });
-
-
-
 
 app.use("/listings", listingRoute);
 app.use("/listings/:id/review", reviewRoute);
-
-
-
-
-
+app.use("/", userRoute);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500).render("error.ejs", { err, title: "Error" });

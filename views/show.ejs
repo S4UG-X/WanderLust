@@ -13,6 +13,10 @@
       <h2 class="card-title mb-3 text-center"><%= listing.title %></h2>
       <ul class="list-group list-group-flush mb-3">
         <li class="list-group-item">
+          <i class="fa fa-user"></i>
+          <%= listing.owner ? listing.owner.username : 'Unknown' %>
+        </li>
+        <li class="list-group-item">
           <strong>Description:</strong>
           <%= listing.description %>
         </li>
@@ -26,11 +30,13 @@
           <strong>Country:</strong>
           <%= listing.country %>
         </li>
+
         <li class="list-group-item">
           <strong>Location:</strong>
           <%= listing.location %>
         </li>
       </ul>
+      <% if(currentUser && listing.owner._id.equals(currentUser._id)){ %>
       <div class="d-flex justify-content-between">
         <a
           href="/listings/<%= listing._id %>/edit"
@@ -48,8 +54,10 @@
           </button>
         </form>
       </div>
+      <% } %>
     </div>
   </div>
+  
   <hr />
   <h4>Add Review</h4>
   <form
@@ -90,20 +98,25 @@
     <% for( let review of listing.reviews) {%>
     <div class="card col-md-6 mb-3" style="width: 18rem; margin-left: 10px">
       <div class="card-body">
-        <h5 class="card-title">John Doe</h5>
+        <h6 class="card-title">
+          <i class="fa fa-user"></i> <%=review.author.username%>
+        </h6>
         <h6 class="card-subtitle mb-2 text-body-secondary">
           <%=review.rating %>stars
         </h6>
         <p class="card-text"><%=review.comment %></p>
+        <% if(currentUser && review.author._id.equals(currentUser._id)){ %>
         <form
           action="/listings/<%=listing._id  %>/review/<%=review._id  %>?_method=DELETE"
           method="post"
-          style="display: inline;"
+          style="display: inline"
         >
           <button class="btn btn-danger btn-sm">Delete</button>
         </form>
+        <% } %>
       </div>
     </div>
     <% } %>
   </div>
+ 
 </div>

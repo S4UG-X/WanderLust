@@ -19,7 +19,12 @@ mongoose
   
  const dbinit = async ()=>{
   await Listing.deleteMany({})
-  Listing.insertMany(initData.data)
-  console.log("Done")
+  
+  initData.data = initData.data.map((obj) => ({
+    ...obj,
+    owner: "6868d6de744e0ef05f0a2252", 
+  }));
+  await Listing.insertMany(initData.data)
+  // console.log("Done")
  }
  dbinit();
