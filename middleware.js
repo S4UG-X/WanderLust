@@ -2,6 +2,7 @@ const { listingSchema, reviewSchema } = require("./schema.js");
 const customError = require("./utils/customError.js");
 
 const Review = require("./models/review");
+const Listing = require("./models/listing");
 
 
 

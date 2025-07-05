@@ -65,3 +65,9 @@ Add the owner to each listing and showing it in the show.ejs
 Making sure that one user cannot delete the other user's listing both from frontend and backend
 Do the same for Review
 
+# Branch misc
+Using Model, View, Controller Method
+using router.route
+Image upload (multer)
+Connect database to remote mongo Atlas
+Now upload to GitHub
