@@ -23,8 +23,8 @@ ctrl + h ==> to find and replace all at once
 
 
 # Branch Route
-created index route and show route
-created create route, update route and their corrosponding ejs files.
+created index route and show route,
+created create-route, update-route and their corrosponding ejs files.
 
 # Branch styling
 ejs-mate npm package for boilerplate.ejs
