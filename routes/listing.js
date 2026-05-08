@@ -6,11 +6,11 @@ const { storage } = require("../cloudConfig.js");
 const multer = require("multer");
 const upload = multer({ storage });
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
-
+ 
 router.get("/:id/edit", isOwner, wrapAsync(listingController.editGet));
 
 router.get("/new", isLoggedIn, listingController.addNewGet);
-
+//this 
 router
   .route("/:id")
   .get(wrapAsync(listingController.showRoute))
